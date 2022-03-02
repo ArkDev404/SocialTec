@@ -22,8 +22,8 @@
     $mail->Host = 'smtp.mailtrap.io';
     $mail->SMTPAuth = true;
     $mail->Port = 2525;
-    $mail->Username = '1ee97a6d3140f2';
-    $mail->Password = 'ecc62d2f03edfb';
+    $mail->Username = ''; // Add mailtrap user
+    $mail->Password = ''; // Add mailtrap password
 
     $mail->setFrom("soporte@socialtec.com", "SocialTec");
     $mail->addAddress($email);
