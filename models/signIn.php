@@ -9,21 +9,27 @@
     require 'PHPMailer/src/PHPMailer.php';
     require 'PHPMailer/src/SMTP.php';
 
-    $name = "Juan";
-    $lastname = "Perez";
-    $username = "Juan Perez";
-    $email = "juanperez2@prueba.com";
-    $pass = "1234";
+    $name = $_POST["nameU"];
+    $lastname = $_POST["lastname"];
+    $username = $_POST["username"];
+    $email = $_POST["email"];
+    $pass = $_POST["password"]; //Recibimos contraseña 
     $token = bin2hex(random_bytes((12 - (12 % 2)) / 2));
     $active = "0";
+
+    $options = array(
+        'cost' => 12
+    );
+
+    $passwordHash = password_hash($pass, PASSWORD_BCRYPT, $options);
 
     $mail = new PHPMailer();
     $mail->isSMTP();
     $mail->Host = 'smtp.mailtrap.io';
     $mail->SMTPAuth = true;
     $mail->Port = 2525;
-    $mail->Username = ''; // Add mailtrap user
-    $mail->Password = ''; // Add mailtrap password
+    $mail->Username = '1ee97a6d3140f2';
+    $mail->Password = 'ecc62d2f03edfb';
 
     $mail->setFrom("soporte@socialtec.com", "SocialTec");
     $mail->addAddress($email);
@@ -36,18 +42,28 @@
         $stmt = $conn->prepare("Insert into users
                                 (name,lastname,userName,email,pass,token,active)
                                 values(?,?,?,?,?,?,?)");
-        $stmt->bind_param("sssssss",$name,$lastname,$username,$email,$pass,$token,$active);
+        $stmt->bind_param("sssssss",$name,$lastname,$username,$email,$passwordHash,$token,$active);
         $stmt->execute();
 
         $is_inserted = $stmt->insert_id;
 
         if ($is_inserted>0) {
             if (!$mail->send()) {
-                echo $mail->ErrorInfo;
+                $response = array(
+                    'response' => 'error',
+                    'message' => $mail->ErrorInfo
+                );
+               // echo $mail->ErrorInfo;
             } else {
-                echo "Se envio un correo de verificacion";
+                $response = array(
+                    'response' => 'Ok',
+                    'message' => 'Se ha enviado un mensaje a tu correo!'
+                );
+               // echo "Se envio un correo de verificacion";
             }
         }
     } catch (Exception $e) {
         echo $e;
     }
+
+    die(json_encode($response));
