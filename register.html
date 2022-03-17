@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="assets/css/style.css">
 		<link rel="stylesheet" href="assets/css/responsive.css">
 		
-		<title>Social - Tu red social</title>
+		<title>SocialTec - Tu red social</title>
 
         <link rel="icon" type="image/png" href="assets/images/favicon.png">
     </head>
@@ -61,45 +61,43 @@
     
                     <div class="col-lg-6 col-md-12">
                         <div class="register-form">
-                            <h2>Registro</h2>
+                            <h2>Registrate</h2>
         
-                            <form id="register-form" method="post">
+                            <form id="register-form" class="form" method="post">
                                 <div class="form-group">
                                     <label>Nombre</label>
-                                    <input id="nameU" name="nameU" type="text" class="form-control">
+                                    <input name="nameu" type="text" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Apellidos</label>
-                                    <input id="lastname" name="lastname" type="text" class="form-control">
+                                    <input name="lastname" type="text" class="form-control">
                                 </div>
 
                                 <div class="form-group">
                                     <label>Nombre de Usuario</label>
-                                    <input id="username" name="username" type="text" class="form-control">
+                                    <input name="username" type="text" class="form-control">
+                                    <span class="form-text text-secondary" style="font-size: small;">Este sera el nombre que aparecera en tu perfil</span>
                                 </div>
+
 
                                 <div class="form-group">
                                     <label>Correo</label>
-                                    <input id="email" name="email" type="email" class="form-control">
+                                    <input name="email" type="email" class="form-control">
                                 </div>
         
                                 <div class="form-group">
                                     <label>Contraseña</label>
-                                    <input id="password" name="password" type="password" class="form-control">
+                                    <input name="password" type="password" class="form-control">
                                 </div>
-        
 
-                                <button type="submit" class="default-btn">Registarar</button>
+                                <button type="submit" class="default-btn">Register</button>
+                                <input type="hidden" name="operation" value="register">
 
                             </form>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="home-btn-icon">
-                <a href="index.html"><i class="flaticon-home"></i></a>
             </div>
         </div>
         <!-- End Preloader Area -->
@@ -115,41 +113,45 @@
         <script src="assets/js/wow.min.js"></script>
         <script src="assets/js/main.js"></script>
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script>
+
+            $(() => {
+                document.getElementById("register-form").addEventListener("submit", (e) => {
+                     e.preventDefault();
+                     
+                    let data = document.getElementById("register-form")
+
+                    data = new FormData(data)
+
+                    const params = {
+                        body: data,
+                        method: "POST"
+                    }
+
+                    fetch('models/signIn.php',params)
+                        .then(response => response.json())
+                        .then( data => {
+                            if (data.response == "Ok") {
+                                Swal.fire(
+                                    'Registro exitoso',
+                                    data.message,
+                                    'success'
+                                )
+                            }
+                        })
+                    // const values = []
+
+                    // for (const [name, value] of a) {
+                    //     values.push({ name, value })
+                    // }
+
+
+                    // console.log(values)
+
+                })
+            } )
+
+        </script>
     </body>
-
-    <script>
-        document.getElementById("register-form").addEventListener('submit', (e) => {
-            e.preventDefault()
-
-            let data = document.getElementById("register-form")
-
-            data = new FormData(data)
-
-            fetch('models/signIn.php', {
-                method: "POST",
-                body: data
-            })
-            .then( response => response.json() )
-            .then( data => {
-                if (data.response == 'Ok') {
-                    Swal.fire('Registro Exitoso',data.message, 'success')
-                } else {
-                    Swal.fire('Error',data.message, 'error') 
-                }
-            })
-
-            // const values = []
-
-            // for (const [name,value] of data) {
-            //     values.push({name,value})
-                
-            // }
-
-            // console.log(values)
-            
-
-        })
-    </script>
-
-
 </html>
