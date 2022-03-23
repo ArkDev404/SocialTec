@@ -47,3 +47,47 @@ Para agilizar mas rapido el proceso de programación en este curso, se recomiend
 - JavaScript (ES6) code snippets
 - PHP Intellisense
 - Snapcode
+
+## Cambios para hacer funcionar el proyecto
+
+Es importante que cambies 2 archivos fundamentales hasta el momento: Estos Archivos son:
+- db.php
+- vars.php
+Ambos archivos ubicados en la carpeta config
+
+### db.php
+
+```php
+<?php 
+/**
+ * Este archivo nos permite configurar nuestra conexion a la base de datos
+ * @param hostname: Especifica la ubicación o ip donde esta la BD
+ * @param user: Especifica el nombre de usuario
+ * @param password: Especifica la contraseña del usuario de BD
+ * @param db: Especifica el nombre de la base de datos a utilizar
+ */
+
+    $hostname = "";
+    $user = "";
+    $password = "";
+    $db = "";
+
+    $conn = mysqli_connect($hostname,$user,$password,$db);
+
+    // if ($conn -> ping()) {
+    //     echo "OK";
+    // }
+
+?>
+```
+### vars.php
+
+```php
+<?php
+    // Mailtrap Auth
+    $mailtrap_user = "";
+    $mailtrap_password = "";
+
+    
+?>
+```
